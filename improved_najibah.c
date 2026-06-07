@@ -1,8 +1,13 @@
 #include <stdio.h>
+
+//i moved all variables here so that they are treated as global. other wise the func cannot read them. idk why..
  char ch, a='1', b='2', c='3', d='4', e='5', f='6', g='7', h='8', i='9';
     int s,l,t;
 
-  int board()
+
+
+// here i added the board printing func so that we can call it anytime we need(before turns,draw,win,lose)
+  void board()
     { 
  printf ("\nBoard: \n");
                 int r;
@@ -24,8 +29,9 @@
                 }
 
 
-         return 0;
+         
     }
+//func ends
 void main()
 {
    
@@ -36,9 +42,9 @@ void main()
     scanf ("%d", &l);
     printf ("\n");
 
-    for (t=1; t<=9; t++) {
+    for (t=1; t<=10; t++) { //i made it 10 cuz the draw condition is if(t>9) but in for(t<=9) it can never be 9. and the board doesnt get displayed
 
-                 board();
+                 board(); //called the made functions, i also called it to display results
                            
 
                     printf ("\n#TURN: %d\n", t);
@@ -153,6 +159,8 @@ void main()
                         }
 
                         else if ( l==3 ) {
+
+                          //here i added this block to make it so that the bot tries to win. its simply blocking code block just the X's replaced with O
                             if ((( a=='O' && c=='O' ) || ( e=='O' && h=='O' )) && b=='2' )
                                 b= 'O';
                             else if ((( d=='O' && f=='O' ) || ( b=='O' && h=='O') || ( c=='O' && g=='O' ) || ( a=='O' && i=='O' ))
@@ -172,7 +180,7 @@ void main()
                                 d= 'O';
                             else if ((( a=='O' && d=='O') || ( h=='O' && i=='O') || ( e=='O' && c=='O' )) && g=='7' )
                                 g= 'O';
-
+                             //winning block ends here
 
                             else if ((( a=='X' && c=='X' ) || ( e=='X' && h=='X' )) && b=='2' )
                                 b= 'O';
