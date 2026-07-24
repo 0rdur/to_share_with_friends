@@ -6,6 +6,7 @@ int i,j,k,sum=0,r,flag,size,attempt;
   char g='\0';
   int vk=0;
   int v=0;
+  char rules;
   char check[15];
   char guess[15];
   char a[20][15]={"apple",
@@ -65,6 +66,15 @@ int menu(){
     scanf(" %c",&g);
   if(g=='q'){return 1;}
   else{
+ printf("\n press r to view the rules. press anything else to skip");
+    scanf(" %c",&rules);
+    if(rules=='r'){
+    printf("\nYou have made the choice to play the game\nthe rules are simple\n-You will be given a hidden word to guess\n");
+    printf("-you will guess one letter at a time\n-each time you guess the correct letter, every single position that letter exists in the word will be revealed.\n");
+    printf("-you will also be able to see the past guesses.\n ***BUT BE CAREFULL!***\n each time you guess wrong you will lose a life.\n-In the beginning you start with 6 lives.\n-Every single wrong guess takes away one of them.\n-If you manage to guess the word before the lives run out,you win\n-BUT IF THE LIVES RUN OUT FIRST......YOU WILL BE HANGED\n");
+    printf("the correct total word will be shown after the game ends.\n\n             goodluck\n\n");
+    }
+    else{printf("\n looks like you have played this game before!\n");}
     for(int b=0;b<15;b++){
       check[b]='_';
     }
@@ -104,6 +114,7 @@ return ;
 
 int main(){
   srand(time(NULL));
+  printf("\n==========WELCOME!=========\n the game was made by Mohammad Arshadul Bashar,roll 18,BSSE 18th batch\n");
     while(1){
       if(menu()==1)break;
         while(attempt!=0){
