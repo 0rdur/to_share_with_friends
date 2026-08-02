@@ -1,0 +1,11 @@
+
+{
+    printf("\n press r to view the rules. press anything else to skip");
+    scanf(" %c",&rules);
+    if(rules=='r'){
+    printf("\nYou have made the choice to play the game\nthe rules are simple\nYou will be given a hidden word to guess\n");
+    printf("you will guess one letter at a time and each time you guess the correct letter, every single posituon that letter exists in the word will be revealed.\n");
+    printf("you will also be able to see the past guesses.\n BUT BE CAREFULL!\n each time you guess wrong you will lose a life.\n In the beginning you start with 6 lives.\n Every single wrong guess takes away one of them.\nIf you manage to guess the word before the lives run out,you win\n BUT IF THE LIVES RUN OUT FIRST......YOU WILL BE HANGED\n");
+    printf("the correct total word will be shown after the game ends.\n goodluck\n");
+    }
+    else{printf("\n looks like you have played this game before!\n");}

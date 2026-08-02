@@ -1,0 +1,112 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include  <time.h>
+#include <string.h>
+int i,j,k,sum=0,r,flag,size,attempt;
+  char g='\0';
+  int vk=0;
+  int v=0;
+  char check[15];
+  char guess[15];
+  char a[20][15]={"apple",
+  "ball",
+  "cat",
+  "dog",
+  "earth",
+  "flat",
+  "gem",
+  "habit",
+  "hassle",
+  "infinite",
+  "instant",
+  "jackfruit",
+  "jungle",
+  "kill",
+  "laugh",
+  "life",
+  "lavender",
+  "lavish",
+  "yolk",
+  "work"
+  };
+
+void hangman(int x){
+if(x==6)
+printf("\n\n +---+\n\n |   |\n\n     |\n\n     |\n\n     |\n\n     |\n\n");
+if(x==5)
+printf("\n\n +---+\n\n |   |\n\n o   |\n\n     |\n\n     |\n\n     |\n\n");
+if(x==4)
+printf("\n\n +---+\n\n |   |\n\n o   |\n\n/    |\n\n     |\n\n     |\n\n");
+if(x==3)
+printf("\n\n +---+\n\n |   |\n\n o   |\n\n/|   |\n\n     |\n\n     |\n\n");
+if(x==2)
+printf("\n\n +---+\n\n |   |\n\n o   |\n\n/|\\  |\n\n     |\n\n     |\n\n");
+if(x==1)
+printf("\n\n +---+\n\n |   |\n\n o   |\n\n/|\\  |\n\n/    |\n\n     |\n\n");
+if(x==0)
+printf("\n\n +---+\n\n |   |\n\n o   |\n\n/|\\  |\n\n/ \\  |\n\n     |\n\n");
+
+printf("=========\n\n");
+
+printf("YOU HAVE ONLY %d ATTEMPTS LEFT",x);
+return ;
+}
+
+int main(){
+  srand(time(NULL));
+    while(1){
+    g='\0';
+    vk=0;
+    attempt=6;
+    printf("\n press q to quit anything else to play ");
+    scanf("%c",&g);
+    if(g=='q'){break;}
+    else{
+    for(int b=0;b<15;b++){
+      check[b]='_';
+    }
+    for(j=0;j<15;j++){
+        guess[j]='\0';
+      }
+    sum=0;
+    v=0;
+    r= (rand()%(19-0+1))+1;
+    size=strlen(a[r]);
+    for(int x=0;x<size;x++){printf("%c",check[x]);}
+  while(attempt!=0){
+      flag=0;
+        printf("\nenter the letter you guessed:\n");
+    scanf(" %c",&g);
+
+     guess[vk]=g; 
+    for(j=0;j<size;j++){
+        if(a[r][j]==g){
+          flag=1;
+          check[j]=g;
+          sum++;
+        }
+      }
+    printf("\n your guesses are; ");
+    while(guess[v]!='\0'){
+       printf("%c ",guess[v]);
+       v++;
+        }
+        printf("\n the state of the word is  ");
+    for(j=0;j<size;j++){
+        printf("%c",check[j]);
+      }
+
+    if(flag==0){attempt--;  printf("\nyou guessed wrong\n");}
+     hangman(attempt);
+     printf("\n");
+if(sum==size){
+        printf("\nyou win\n");
+        break;
+        }
+
+if(attempt==0){printf("\n you lost");};
+ }
+}
+  }
+return 0;
+}

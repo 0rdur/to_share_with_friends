@@ -1,0 +1,16 @@
+issue 1
+    robot doesnt try to win rather tries to block
+
+issue 2
+    the winning board is not displayed
+
+she added corner cases in level 3
+the if statements are something to learn from
+
+
+issues 3 main
+
+    she has no code for winning 
+    thats why its short 
+
+
