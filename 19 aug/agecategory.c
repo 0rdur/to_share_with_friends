@@ -32,7 +32,7 @@ int differal(int age){
 }
 
 int main()
-{
+{   printf("missing ages were taken as 0 and categorized into 1st age category\n");
     FILE *fp=fopen("titanic.csv", "r");
 
     if (fp==NULL){

@@ -39,7 +39,7 @@ int main(){
         return 1;
     }
    
-{   printf("here age category 1 is for 0 to 18,2 is or 18 to 40 and 3 is for 40 over years old\n\n");
+{   printf("here age category 1 is for 0 to 18,2 is or 18 to 40 and 3 is for 40 over years old\npeople with mising ages were counted into the 1st category\n\n\n");
     int alive,class,category;
     char line[1000];
     int genderdiff;
