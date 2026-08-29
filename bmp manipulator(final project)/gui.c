@@ -513,10 +513,7 @@ void start_gui(int argc, char **argv)
 
     Ihandle *undo_button;
 
-    Ihandle *row1;
-    Ihandle *row2;
-
-    Ihandle *button_area;
+    Ihandle *button_panel;
     Ihandle *layout;
 
     IupOpen(&argc, &argv);
@@ -524,13 +521,16 @@ void start_gui(int argc, char **argv)
     open_button = IupButton("Open Image", NULL);
     IupSetCallback(open_button, "ACTION", (Icallback)open_image_callback);
 
-    save_button = IupButton("Save", NULL);
+    save_button = IupButton("Save Image", NULL);
     IupSetCallback(save_button, "ACTION", (Icallback)save_image_callback);
+
+    undo_button = IupButton("Undo Action", NULL);
+    IupSetCallback(undo_button, "ACTION", (Icallback)undo_callback);
 
     gray_button = IupButton("Grayscale", NULL);
     IupSetCallback(gray_button, "ACTION", (Icallback)grayscale_callback);
 
-    invert_button = IupButton("Invert", NULL);
+    invert_button = IupButton("Invert Colors", NULL);
     IupSetCallback(invert_button, "ACTION", (Icallback)invert_callback);
 
     flip_h_button = IupButton("Flip Horizontal", NULL);
@@ -545,32 +545,22 @@ void start_gui(int argc, char **argv)
     rotate_button = IupButton("Rotate 90°", NULL);
     IupSetCallback(rotate_button, "ACTION", (Icallback)rotate_callback);
 
-    crop_button = IupButton("Crop", NULL);
+    crop_button = IupButton("Crop Region", NULL);
     IupSetCallback(crop_button, "ACTION", (Icallback)crop_callback);
 
-    blur_button = IupButton("Blur", NULL);
+    blur_button = IupButton("Apply Blur", NULL);
     IupSetCallback(blur_button, "ACTION", (Icallback)blur_callback);
 
-    sharpen_button = IupButton("Sharpen", NULL);
+    sharpen_button = IupButton("Sharpen Edge", NULL);
     IupSetCallback(sharpen_button, "ACTION", (Icallback)sharpen_callback);
 
-    undo_button = IupButton("Undo", NULL);
-    IupSetCallback(undo_button, "ACTION", (Icallback)undo_callback);
-
-    /* Row 1 Layout */
-    row1 = IupHbox(
+    /* Vertical button panel aligned on the right side */
+    button_panel = IupVbox(
         open_button,
         save_button,
         undo_button,
         gray_button,
         invert_button,
-        NULL
-    );
-    IupSetAttribute(row1, "GAP", "5");
-    IupSetAttribute(row1, "ALIGNMENT", "ACENTER");
-
-    /* Row 2 Layout */
-    row2 = IupHbox(
         flip_h_button,
         flip_v_button,
         bright_button,
@@ -580,12 +570,23 @@ void start_gui(int argc, char **argv)
         sharpen_button,
         NULL
     );
-    IupSetAttribute(row2, "GAP", "5");
-    IupSetAttribute(row2, "ALIGNMENT", "ACENTER");
+    IupSetAttribute(button_panel, "GAP", "6");
+    IupSetAttribute(button_panel, "ALIGNMENT", "ACENTER");
+    IupSetAttribute(button_panel, "EXPAND", "VERTICAL");
 
-    button_area = IupVbox(row1, row2, NULL);
-    IupSetAttribute(button_area, "GAP", "5");
-    IupSetAttribute(button_area, "ALIGNMENT", "ACENTER");
+    /* Ensure uniform width across all buttons */
+    IupSetAttribute(open_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(save_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(undo_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(gray_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(invert_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(flip_h_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(flip_v_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(bright_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(rotate_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(crop_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(blur_button, "EXPAND", "HORIZONTAL");
+    IupSetAttribute(sharpen_button, "EXPAND", "HORIZONTAL");
 
     {
         unsigned char pixel[3] = {255, 255, 255};
@@ -595,18 +596,19 @@ void start_gui(int argc, char **argv)
     image_display = IupLabel(NULL);
     IupSetAttributeHandle(image_display, "IMAGE", current_iup_image);
     IupSetAttribute(image_display, "ALIGNMENT", "ACENTER:ACENTER");
-    IupSetAttribute(image_display, "RASTERSIZE", "700x500");
-    IupSetAttribute(image_display, "MAXSIZE", "700x500");
+    IupSetAttribute(image_display, "RASTERSIZE", "680x500");
+    IupSetAttribute(image_display, "MAXSIZE", "680x500");
     IupSetAttribute(image_display, "EXPAND", "NO");
 
-    layout = IupVbox(image_display, button_area, NULL);
-    IupSetAttribute(layout, "GAP", "10");
-    IupSetAttribute(layout, "MARGIN", "10x10");
+    /* Horizontal layout with image on left and button sidebar on right */
+    layout = IupHbox(image_display, button_panel, NULL);
+    IupSetAttribute(layout, "GAP", "15");
+    IupSetAttribute(layout, "MARGIN", "15x15");
     IupSetAttribute(layout, "ALIGNMENT", "ACENTER");
 
     main_dialog = IupDialog(layout);
     IupSetAttribute(main_dialog, "TITLE", "BMP Image Editor");
-    IupSetAttribute(main_dialog, "RASTERSIZE", "900x700");
+    IupSetAttribute(main_dialog, "RASTERSIZE", "900x600");
 
     IupShowXY(main_dialog, IUP_CENTER, IUP_CENTER);
 
