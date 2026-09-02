@@ -362,7 +362,6 @@ void sharpen_image(Image *image)
             int ky;
             int kx;
 
-            /* 3x3 convolution loop */
             for (ky = -1; ky <= 1; ky++)
             {
                 for (kx = -1; kx <= 1; kx++)
@@ -370,7 +369,6 @@ void sharpen_image(Image *image)
                     int nx = x + kx;
                     int ny = y + ky;
 
-                    /* Clamp boundary coordinates to edge pixels */
                     if (nx < 0) nx = 0;
                     if (nx >= w) nx = w - 1;
                     if (ny < 0) ny = 0;
@@ -385,14 +383,12 @@ void sharpen_image(Image *image)
                 }
             }
 
-            /* Clamp sums to valid range [0, 255] */
             temp->data[y * w + x].r = (unsigned char)(sum_r < 0 ? 0 : (sum_r > 255 ? 255 : sum_r));
             temp->data[y * w + x].g = (unsigned char)(sum_g < 0 ? 0 : (sum_g > 255 ? 255 : sum_g));
             temp->data[y * w + x].b = (unsigned char)(sum_b < 0 ? 0 : (sum_b > 255 ? 255 : sum_b));
         }
     }
 
-    /* Copy processed pixels back and release temporary buffer */
     for (i = 0; i < w * h; i++)
     {
         image->data[i] = temp->data[i];

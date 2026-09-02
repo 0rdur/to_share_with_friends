@@ -25,6 +25,7 @@ Image *undo_image = NULL;
 Ihandle *image_display;
 
 
+
 /*
     Main window.
 */
