@@ -17,7 +17,7 @@ value will be effected by the blurred one, we dont want it. it also accounts for
 
 sharpen takes the exact same approach just takes the weighted avg(using the karnel given by sir(Fuad sir))
 
-crop creates a new blank space, populates a 2d array of pixel type in that space with the pixel from the starting point and uptil the new height
+crop creates a new blank space, populates a 2d array of pixel type in that space with the pixel from the starting point and uptil the new height and width
 
 
 
