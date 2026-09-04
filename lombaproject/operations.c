@@ -30,7 +30,7 @@ static Image *create_blank_image(int width, int height)
   //and eta return koray height width o update hobe
 }
 
-static unsigned char clamp_channel(int value)
+static unsigned char clamp_channel(int value)//makes sure je britghtness er value 0 to 255 er moddhe ase
 //static karon jeno onno file o eta porte pare
 {
     if (value < 0)
@@ -50,17 +50,17 @@ void grayscale_image(Image *image)
     if (image == NULL || image->data == NULL)
         return;
 
-    for (y = 0; y < image->height; y++)
+    for (y = 0; y < image->height; y++)//traverses the image row
     {
-        for (x = 0; x < image->width; x++)
+        for (x = 0; x < image->width; x++)//column(baki sob gulite x ar y er for loop etai mean kore)
         {
             Pixel *pixel =
-                &image->data[y * image->width + x];
+                &image->data[y * image->width + x];//targeted pixel ke arekta local variable e save
 
             int gray =
                 (299 * pixel->r +
                  587 * pixel->g +
-                 114 * pixel->b) / 1000;
+                 114 * pixel->b) / 1000;//sir er formula apply
 
             pixel->r = (unsigned char)gray;
             pixel->g = (unsigned char)gray;
@@ -79,7 +79,8 @@ void adjust_brightness(Image *image, int amount)
 
     total_pixels = image->width * image->height;
 
-    for (i = 0; i < total_pixels; i++)
+    for (i = 0; i < total_pixels; i++)//row and column traverse na kore direct all pixel traverse korse. grayscale eo ei kaj kora jeto
+  //2d array er mot represent korte chaisi bole korinai pointer arythmatic 
     {
         image->data[i].r =
             clamp_channel(image->data[i].r + amount);
@@ -102,7 +103,7 @@ void invert_image(Image *image)
 
     total_pixels = image->width * image->height;
 
-    for (i = 0; i < total_pixels; i++)
+    for (i = 0; i < total_pixels; i++)//same
     {
         image->data[i].r = 255 - image->data[i].r;
         image->data[i].g = 255 - image->data[i].g;
@@ -120,7 +121,7 @@ void flip_horizontal(Image *image)
 
     for (y = 0; y < image->height; y++)
     {
-        for (x = 0; x < image->width / 2; x++)
+        for (x = 0; x < image->width / 2; x++)//proti row er majher element fiux rekhe baki gulike  exchange
         {
             int left = y * image->width + x;
             int right =
@@ -143,7 +144,7 @@ void flip_vertical(Image *image)
     if (image == NULL || image->data == NULL)
         return;
 
-    for (y = 0; y < image->height / 2; y++)
+    for (y = 0; y < image->height / 2; y++)//proti column er majher element fix rekhe baki gulike exchange
     {
         for (x = 0; x < image->width; x++)
         {
@@ -160,7 +161,7 @@ void flip_vertical(Image *image)
     }
 }
 
-Image *rotate_image_90(Image *image)
+Image *rotate_image_90(Image *image)//image type return karon different dimension er image create hocche
 {
     Image *rotated;
     int new_width;
@@ -178,7 +179,7 @@ Image *rotate_image_90(Image *image)
         new_width,
         new_height
     );//ei blank canvas ta pore original ss ke replace kore,jekhane 
-  //height ar wwidht o update hoyue jay
+  //height ar wwidht o update hoye jay
 
     if (rotated == NULL)
         return NULL;
@@ -203,7 +204,7 @@ Image *rotate_image_90(Image *image)
         }
     }
 
-    return rotated;//with updated height width
+    return rotated;//with updated height width,notun ekta image er first adress ta return kortese
 }
 
 Image *crop_image(
@@ -212,7 +213,7 @@ Image *crop_image(
     int y,
     int width,
     int height
-)// etar type diff karon eta original ss ke change kore na notun ss banay oita return kore
+)// etar type diff karon eta original ss ke change kore na ,notun ss banay oita return kore(once again different dimension)
 {
     Image *cropped;
     int cx;
@@ -228,15 +229,15 @@ Image *crop_image(
     if (x < 0 || y < 0 ||
         width <= 0 || height <= 0 ||
         x + width > image->width ||
-        y + height > image->height)
+        y + height > image->height)//check kore selected area image er vitore ase naki
     {
         return NULL;
     }
 
-    cropped = create_blank_image(width, height);//crop image er size chnage kore tai notun kore diff\
+    cropped = create_blank_image(width, height);//crop image er size chnage kore tai notun kore different
     //dimension er jayga allocate kora lage
   //and eta widht ar height ke change kore dey
-  //check create_blank_space
+  //check create_blank_space func
     if (cropped == NULL)
         return NULL;
 
@@ -270,22 +271,17 @@ void blur_image(Image *image)// etate amra original ss edit na kore oita theke v
     output = create_blank_image(
         image->width,
         image->height
-    );//temporarary space delcare
+    );//temporarary space declare
 
     if (output == NULL)
         return;
 
-    /*
-        3x3 neighborhood average.
-        A separate output image is used so that
-        newly calculated pixels do not affect
-        later calculations.
-    */
   // ei dui loop diye original file er datar value ke change kore temp e rakha hoy. since 3x3 matrix niye kaj kortesi, 
-  // value change korle main ss eo value chng hoye jabe
+  // value change korle main ss eo value chng hoye jabe, jeta next pixel er calculation ke hamper korbe
+  // so we create the blur value for the selected pixel and keep it inside the newly created blank space(this time the dimension is same, still we need blank space)
     for (y = 0; y < image->height; y++)
     {
-        for (x = 0; x < image->width; x++)
+        for (x = 0; x < image->width; x++)//traverses the pixels in original
         {
             int nx;
             int ny;
@@ -296,7 +292,7 @@ void blur_image(Image *image)// etate amra original ss edit na kore oita theke v
 
             for (ny = y - 1; ny <= y + 1; ny++)
             {
-                for (nx = x - 1; nx <= x + 1; nx++)
+                for (nx = x - 1; nx <= x + 1; nx++)//traverses the 3x3 total 9 pixel around the selected image
                 {
                     if (nx >= 0 && nx < image->width &&
                         ny >= 0 && ny < image->height)//cehck kore edge or corner e ase kina,thakle oi value guli neyna
@@ -304,7 +300,7 @@ void blur_image(Image *image)// etate amra original ss edit na kore oita theke v
                         Pixel p =
                             image->data[
                                 ny * image->width + nx
-                            ];
+                            ];//temp ekta variable e orignal image er data guli nilam
 
                         sum_r += p.r;
                         sum_g += p.g;
@@ -316,17 +312,18 @@ void blur_image(Image *image)// etate amra original ss edit na kore oita theke v
 
             output->data[
                 y * image->width + x
-            ].r = (unsigned char)(sum_r / count);
+            ].r = (unsigned char)(sum_r / count);//(red value)faka space e bairer x y looper pixel coordinate wise blurred value dhukay dilam
 
             output->data[
                 y * image->width + x
-            ].g = (unsigned char)(sum_g / count);
+            ].g = (unsigned char)(sum_g / count);//(green)
 
             output->data[
                 y * image->width + x
-            ].b = (unsigned char)(sum_b / count);
-        }//data ke manipulate kore temp e rakha done
+            ].b = (unsigned char)(sum_b / count);//(blue)
+        }//data ke manipulate kore faka space e rakha done
     }
+  //total faka space blurred value diye popoulate kora done
 
     for (y = 0; y < image->height; y++)
     {
@@ -339,12 +336,12 @@ void blur_image(Image *image)// etate amra original ss edit na kore oita theke v
                     y * image->width + x
                 ];
         }
-    }//original ss e ei manipulated data ta dibo jeno oita display/save korte pari
+    }//original ss er pixel ke blurred pixel diye replace korlam
 
-    free_image(output);//temp ta delete korlam
+    free_image(output);//temp re faka jayga baniyechilam dlete korlam
 }
 
-void sharpen_image(Image *image)
+void sharpen_image(Image *image)//exactly...exactly same as blur. same line to line explanation
 {
     Image *output;
     int kernel[3][3] = {

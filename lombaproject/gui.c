@@ -9,7 +9,7 @@
 /*
     Current image being edited.
 */
-Image *current_image = NULL;
+Image *current_image = NULL;// ETATE MAIN IMAGE PIXEL GULI THAKE. ETAI SHEI "SS"
 
 /*
     Previous image for one-level Undo.
@@ -452,6 +452,7 @@ int undo_callback(Ihandle *self)
     ====================================================
 */
 int save_image_callback(Ihandle *self)
+//EKHANE IMAGE INPOUT NEYA HOYYYYYYY
 {
     Ihandle *file_dialog;
     char *filename;

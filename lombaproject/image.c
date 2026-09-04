@@ -22,10 +22,10 @@ typedef struct
 typedef struct
 {
     uint32_t size;
-    int32_t width;//lageb
-    int32_t height;//lahbe
+    int32_t width;//lagbe
+    int32_t height;//lagbe
     uint16_t planes;
-    uint16_t bits_per_pixel;//lahgbe
+    uint16_t bits_per_pixel;//lagbe
     uint32_t compression;//lagbe
     uint32_t image_size;
     int32_t x_pixels_per_meter;
@@ -37,7 +37,7 @@ typedef struct
 
 #pragma pack(pop)
 
-Image *load_bmp(const char *filename)//filename oi mouse diyue choose kora file tar nam return kore 
+Image *load_bmp(const char *filename)//filename oi mouse diye choose kora file tar nam return kore 
 {
     FILE *file;
     BMPFileHeader file_header;//eito 14 byte
@@ -148,7 +148,7 @@ Image *load_bmp(const char *filename)//filename oi mouse diyue choose kora file 
         }
       else
       {
-        destination_y = y;}
+        destination_y = y;}//bmp file e image row ulta vabe thake. so flip kore nilam. loop e ejonne height_1 lagenai
 
         for (x = 0; x < width; x++)
         {
@@ -160,7 +160,7 @@ Image *load_bmp(const char *filename)//filename oi mouse diyue choose kora file 
             pixel->b = row[x * 3 + 0];
             pixel->g = row[x * 3 + 1];
             pixel->r = row[x * 3 + 2];
-           //oi adress e as in oi main ss e (same shit) rgb soja row order kore nilam
+           //oi adress e as in oi main ss e rgb soja row order kore nilam
         }
     }
 
@@ -233,10 +233,6 @@ int save_bmp(const char *filename, const Image *image)
         return 0;
     }
 
-    /*
-        Internal image is top-to-bottom.
-        BMP is written bottom-to-top.
-    */
     for (y = image->height - 1; y >= 0; y--)
   //same sytem row niye row pad kore total ta dhukabo ulta kore
     {
