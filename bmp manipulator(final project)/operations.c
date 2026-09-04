@@ -3,9 +3,6 @@
 #include <stdlib.h>
 
 
-/*
-    Helper function to dynamically allocate a new image buffer.
-*/
 static Image *create_blank_image(int width, int height)
 {
     Image *img;
@@ -31,11 +28,6 @@ static Image *create_blank_image(int width, int height)
 }
 
 
-/*
-    ====================================================
-    GRAYSCALE
-    ====================================================
-*/
 void grayscale_image(Image *image)
 {
     int x;
@@ -62,11 +54,6 @@ void grayscale_image(Image *image)
 }
 
 
-/*
-    ====================================================
-    INVERT
-    ====================================================
-*/
 void invert_image(Image *image)
 {
     int x;
@@ -89,11 +76,6 @@ void invert_image(Image *image)
 }
 
 
-/*
-    ====================================================
-    HORIZONTAL FLIP
-    ====================================================
-*/
 void flip_horizontal(Image *image)
 {
     int x;
@@ -117,11 +99,6 @@ void flip_horizontal(Image *image)
 }
 
 
-/*
-    ====================================================
-    VERTICAL FLIP
-    ====================================================
-*/
 void flip_vertical(Image *image)
 {
     int x;
@@ -145,11 +122,6 @@ void flip_vertical(Image *image)
 }
 
 
-/*
-    ====================================================
-    BRIGHTNESS ADJUSTMENT
-    ====================================================
-*/
 void adjust_brightness(Image *image, int brightness_change)
 {
     int i;
@@ -174,11 +146,6 @@ void adjust_brightness(Image *image, int brightness_change)
 }
 
 
-/*
-    ====================================================
-    ROTATE 90 DEGREES CLOCKWISE
-    ====================================================
-*/
 Image *rotate_image_90(Image *image)
 {
     int x;
@@ -190,7 +157,6 @@ Image *rotate_image_90(Image *image)
     if (image == NULL)
         return NULL;
 
-    /* Swapping dimensions */
     new_w = image->height;
     new_h = image->width;
 
@@ -214,11 +180,6 @@ Image *rotate_image_90(Image *image)
 }
 
 
-/*
-    ====================================================
-    CROP IMAGE
-    ====================================================
-*/
 Image *crop_image(Image *image, int crop_x, int crop_y, int crop_w, int crop_h)
 {
     int x;
@@ -228,7 +189,6 @@ Image *crop_image(Image *image, int crop_x, int crop_y, int crop_w, int crop_h)
     if (image == NULL)
         return NULL;
 
-    /* Boundary validation */
     if (crop_x < 0 || crop_y < 0 || crop_w <= 0 || crop_h <= 0 ||
         (crop_x + crop_w) > image->width || (crop_y + crop_h) > image->height)
     {
@@ -252,11 +212,6 @@ Image *crop_image(Image *image, int crop_x, int crop_y, int crop_w, int crop_h)
 }
 
 
-/*
-    ====================================================
-    BLUR (3x3 NEIGHBORHOOD)
-    ====================================================
-*/
 void blur_image(Image *image)
 {
     int x;
@@ -278,7 +233,7 @@ void blur_image(Image *image)
 
     for (y = 0; y < h; y++)
     {
-        for (x = 0; x < w; x++)
+        for (x = 0; x < w; x++)//goes through the original image pixels
         {
             int sum_r = 0;
             int sum_g = 0;
@@ -288,10 +243,9 @@ void blur_image(Image *image)
             int ny;
             int nx;
 
-            /* 3x3 neighborhood window */
             for (ny = y - 1; ny <= y + 1; ny++)
             {
-                for (nx = x - 1; nx <= x + 1; nx++)
+                for (nx = x - 1; nx <= x + 1; nx++)//traverses the 3x3 around the selected pixelk using coordinate geometry
                 {
                     if (nx >= 0 && nx < w && ny >= 0 && ny < h)
                     {
@@ -310,8 +264,7 @@ void blur_image(Image *image)
         }
     }
 
-    /* Copy back pixels and clean up temporary buffer */
-    for (i = 0; i < w * h; i++)
+    for (i = 0; i < w * h; i++)//since the image dimension is same we rewrite the original by the blur
     {
         image->data[i] = temp->data[i];
     }
@@ -320,12 +273,7 @@ void blur_image(Image *image)
 }
 
 
-/*
-    ====================================================
-    SHARPEN (3x3 CONVOLUTION)
-    ====================================================
-*/
-void sharpen_image(Image *image)
+void sharpen_image(Image *image)//exact same as blur
 {
     int x;
     int y;
@@ -334,7 +282,6 @@ void sharpen_image(Image *image)
     int i;
     Image *temp;
 
-    /* Sharpening kernel weights */
     int kernel[3][3] = {
         { 0, -1,  0},
         {-1,  5, -1},
