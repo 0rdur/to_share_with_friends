@@ -20,6 +20,7 @@ sharpen takes the exact same approach just takes the weighted avg(using the karn
 crop creates a new blank space, populates a 2d array of pixel type in that space with the pixel from the starting point and uptil the new height and width
 
 
+<img width="1920" height="1200" alt="Screenshot From 2026-09-05 18-02-21" src="https://github.com/user-attachments/assets/24253924-cdc9-4789-ac6b-8b27bc3a99cf" />
 
 
 
